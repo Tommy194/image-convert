@@ -11,9 +11,12 @@
        runs-on: ${{ matrix.os }}
 
        strategy:
-         matrix:
-           os: [macos-latest, windows-latest]
-
+     	matrix:
+    	   os: [macos-latest, windows-latest]
+   	    arch: [x64]
+  	     include:
+  	       - os: macos-latest
+  	         arch: arm64
        steps:
        - uses: actions/checkout@v3
        
@@ -28,8 +31,8 @@
        - name: Build Electron app
          run: npm run build
          env:
-           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           
+     	  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    	  ELECTRON_ARCH: ${{ matrix.arch }}
        - name: Upload artifacts
          uses: actions/upload-artifact@v3
          with:
