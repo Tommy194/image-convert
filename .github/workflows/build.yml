@@ -1,23 +1,13 @@
 name: Build Electron App
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
+    runs-on: macos-latest
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
-        arch: [x64]
-        include:
-          - os: macos-latest
-            arch: arm64
-
+        arch: [x64, arm64]
     steps:
     - uses: actions/checkout@v4
     
@@ -33,11 +23,10 @@ jobs:
       run: npm run build
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ELECTRON_ARCH: ${{ matrix.arch }}
         
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.os }}-${{ matrix.arch }}-build
-        path: |
-          dist/*.dmg
-          dist/*.exe
+        name: mac-${{ matrix.arch }}-build
+        path: dist/*.dmg
