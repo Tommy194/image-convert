@@ -31,7 +31,7 @@
            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
            
        - name: Upload artifacts
-         uses: actions/upload-artifact@v2
+         uses: actions/upload-artifact@v3
          with:
            name: ${{ matrix.os }}-build
            path: |
