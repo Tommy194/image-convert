@@ -1,42 +1,44 @@
-   name: Build Electron App
+name: Build Electron App
 
-   on:
-     push:
-       branches: [ main ]
-     pull_request:
-       branches: [ main ]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-   jobs:
-     build:
-       runs-on: ${{ matrix.os }}
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
 
-       strategy:
-     	matrix:
-    	   os: [macos-latest, windows-latest]
-   	    arch: [x64]
-  	     include:
-  	       - os: macos-latest
-  	         arch: arm64
-       steps:
-       - uses: actions/checkout@v3
-       
-       - name: Use Node.js
-         uses: actions/setup-node@v3
-         with:
-           node-version: '16'
-           
-       - name: Install dependencies
-         run: npm install
-         
-       - name: Build Electron app
-         run: npm run build
-         env:
-     	  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    	  ELECTRON_ARCH: ${{ matrix.arch }}
-       - name: Upload artifacts
-         uses: actions/upload-artifact@v3
-         with:
-           name: ${{ matrix.os }}-build
-           path: |
-             dist/*.dmg
-             dist/*.exe
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        arch: [x64]
+        include:
+          - os: macos-latest
+            arch: arm64
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Build Electron app
+      run: npm run build
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ELECTRON_ARCH: ${{ matrix.arch }}
+        
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}-${{ matrix.arch }}-build
+        path: |
+          dist/*.dmg
+          dist/*.exe
