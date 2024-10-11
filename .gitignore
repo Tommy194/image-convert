@@ -1,0 +1,6 @@
+   dist/
+      node_modules/
+      win-unpacked/
+      build/
+      *.exe
+      *.pkg
