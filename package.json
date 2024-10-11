@@ -25,15 +25,17 @@
     "productName": "Image Watermark Tool",
     "mac": {
       "category": "public.app-category.graphics-design",
-      "target": ["dmg", "zip"],
-      "arch": ["x64", "arm64"]
+      "target": ["dmg", "zip"]
     },
     "win": {
-      "target": ["nsis"],
-      "arch": ["x64"]
+      "target": ["nsis"]
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Graphics"
     },
     "electronDownload": {
-      "arch": "arm64"
+      "arch": ["x64", "arm64"]
     },
     "files": [
       "**/*",
